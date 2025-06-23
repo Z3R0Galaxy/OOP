@@ -157,8 +157,8 @@ def deposit(user):
         for row in reader:
             if row['Username'] == user:
                 print(f"Current balance: ${row['Balance']}")
-                Balance = int(row['Balance'])
-                amount = int(input("Enter amount to deposit: $"))
+                Balance = float(row['Balance'])
+                amount = float(input("Enter amount to deposit: $"))
                 row['Balance'] = str(Balance + amount)
                 print(f"Your balance is now ${row['Balance']}")
             rows.append(row)
