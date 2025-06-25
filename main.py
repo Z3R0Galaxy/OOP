@@ -10,10 +10,10 @@ def log_in():
     clear_screen()
     has_account = input("Do you have an account Y/N: ")  # Prompt the user to check if they have an account
 
-    if has_account.lower() == "y":
+    if has_account.lower().strip() == "y":
         while True:
             clear_screen()
-            username = input("Enter username: ").lower()
+            username = input("Enter username: ").lower().strip()
             bankNum = input("Enter bank number: ")
 
             with open("bank.csv", newline='') as f:
@@ -27,15 +27,15 @@ def log_in():
             print("Username or Bank Number is incorrect. Please try again")
             input("Press enter to try again...")
 
-    elif has_account.lower() == "n":
+    elif has_account.lower().strip() == "n":
         clear_screen()
         print("Entering new sign-up protocol")
 
         def user():
             global nuser
-            nuser = input("Please enter your username: ").lower()
+            nuser = input("Please enter your username: ").lower().strip()
             conf = input(f"Your name is '{nuser}', is this correct Y/N: ")
-            if conf.lower() != "y":
+            if conf.lower().strip() != "y":
                 user()
             else:
                 print("Name saved")
@@ -49,7 +49,7 @@ def log_in():
             global nbalance
             nbalance = input("Please enter your balance: $")
             conf = input(f"Your balance is ${nbalance}, is this correct Y/N: ")
-            if conf.lower() != "y":
+            if conf.lower().strip() != "y":
                 balacnce()
             else:
                 print("Balance saved")
@@ -130,13 +130,13 @@ def withdraw(user):
         for row in reader:
             if row['Username'] == user:
                 print(f"Current balance: ${row['Balance']}")
-                Balance = int(row['Balance'])
-                amount = int(input("Enter amount to withdraw: $"))
+                Balance = float(row['Balance'])
+                amount = float(input("Enter amount to withdraw: $"))
                 if amount > Balance:
                     print("You don't have enough funds.")
                     input("Press enter to try again...")
                     return withdraw(user)
-                row['Balance'] = str(Balance - amount)
+                row['Balance'] = round((Balance - amount), 3)
                 print(f"Your balance is now ${row['Balance']}")
             rows.append(row)
 
@@ -159,7 +159,7 @@ def deposit(user):
                 print(f"Current balance: ${row['Balance']}")
                 Balance = float(row['Balance'])
                 amount = float(input("Enter amount to deposit: $"))
-                row['Balance'] = str(Balance + amount)
+                row['Balance'] = round((Balance + amount), 3)
                 print(f"Your balance is now ${row['Balance']}")
             rows.append(row)
 
@@ -187,3 +187,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
